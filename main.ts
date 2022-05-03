@@ -27,14 +27,23 @@ radio.onReceivedValue(function on_received_value(name: string, value: number) {
             )
         }
         
+        // pošle klientovi potvrzení o přijetí odpovědi
         radio.sendValue("confirm", serial_num)
     }
     
 })
+// OVLÁDÁNÍ SERVERU
+// A - přepínač hlasování (povoleno - server přijímá odpovědi, zakázáno - server nepříjímá odpovědi)
+// B - zobrazení odpovědí
+// A+B - reset odpovědí 
 input.onButtonPressed(Button.A, function on_button_pressed_a() {
-    for (let v of odpovedi) {
-        console.log(String.fromCharCode(v["vote"] + 65))
+    
+    if (canVote) {
+        canVote = false
+    } else {
+        canVote = true
     }
+    
 })
 input.onButtonPressed(Button.B, function on_button_pressed_b() {
     let suma: number;
@@ -46,8 +55,12 @@ input.onButtonPressed(Button.B, function on_button_pressed_b() {
             }
             
         }
-        console.log(String.fromCharCode(i + 65))
-        console.log(": ")
-        console.log(suma)
+        console.log(String.fromCharCode(i + 65) + ": " + suma)
+        basic.showString(String.fromCharCode(i + 65) + ":" + suma)
+    }
+})
+input.onButtonPressed(Button.AB, function on_button_pressed_ab() {
+    for (let i = 0; i < odpovedi.length; i++) {
+        odpovedi.removeAt(i)
     }
 })
