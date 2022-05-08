@@ -10,9 +10,11 @@ def on_received_value(name, value):
     if name == "answer" and canVote:
         zmeneno = False
         serial_num = radio.received_packet(RadioPacketProperty.SERIAL_NUMBER)
+        counter = -1
         for o in odpovedi:
+            counter += 1
             if o["serial"] == serial_num:
-                o["vote"] = value
+                odpovedi[counter]["vote"] = value
                 zmeneno = True
         if not zmeneno:
             odpovedi.push({"serial" : serial_num, "vote": value})

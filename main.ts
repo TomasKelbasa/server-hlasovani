@@ -9,13 +9,16 @@ let canVote = true
 radio.onReceivedValue(function on_received_value(name: string, value: number) {
     let zmeneno: boolean;
     let serial_num: number;
+    let counter: number;
     
     if (name == "answer" && canVote) {
         zmeneno = false
         serial_num = radio.receivedPacket(RadioPacketProperty.SerialNumber)
+        counter = -1
         for (let o of odpovedi) {
+            counter += 1
             if (o["serial"] == serial_num) {
-                o["vote"] = value
+                odpovedi[counter]["vote"] = value
                 zmeneno = true
             }
             
