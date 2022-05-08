@@ -1,5 +1,6 @@
 radio.set_group(15)
-odpovedi = [{"serial" : 156840, "vote": 3}]
+odpovedi = [{"serial" : 156840, "vote": 0}]
+odpovedi.pop()
 canVote = True
 
 radio.on_received_value(on_received_value)
@@ -26,8 +27,10 @@ def on_button_pressed_a():
     global canVote
     if canVote:
         canVote = False
+        radio.send_value("voting", 0)
     else:
         canVote = True
+        radio.send_value("voting", 1)
 input.on_button_pressed(Button.A, on_button_pressed_a)
 
 def on_button_pressed_b():
@@ -37,7 +40,7 @@ def on_button_pressed_b():
             if p["vote"] == i:
                 suma += 1
         print(String.from_char_code(i+65) + ": " + suma)
-        basic.show_string(String.from_char_code(i+65) + ":" + suma)
+        basic.show_string(String.from_char_code(i+65) + ":" + suma, 50)
 input.on_button_pressed(Button.B, on_button_pressed_b)
 
 def on_button_pressed_ab():

@@ -1,9 +1,10 @@
 radio.setGroup(15)
 let odpovedi = [ {
     "serial" : 156840,
-    "vote" : 3,
+    "vote" : 0,
 }
 ]
+_py.py_array_pop(odpovedi)
 let canVote = true
 radio.onReceivedValue(function on_received_value(name: string, value: number) {
     let zmeneno: boolean;
@@ -40,8 +41,10 @@ input.onButtonPressed(Button.A, function on_button_pressed_a() {
     
     if (canVote) {
         canVote = false
+        radio.sendValue("voting", 0)
     } else {
         canVote = true
+        radio.sendValue("voting", 1)
     }
     
 })
@@ -56,7 +59,7 @@ input.onButtonPressed(Button.B, function on_button_pressed_b() {
             
         }
         console.log(String.fromCharCode(i + 65) + ": " + suma)
-        basic.showString(String.fromCharCode(i + 65) + ":" + suma)
+        basic.showString(String.fromCharCode(i + 65) + ":" + suma, 50)
     }
 })
 input.onButtonPressed(Button.AB, function on_button_pressed_ab() {
